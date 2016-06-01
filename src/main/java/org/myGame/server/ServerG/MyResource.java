@@ -1,11 +1,12 @@
 package org.myGame.server.ServerG;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import controller.Server;
 
 /**
  * Root resource (exposed at "myresource" path)
@@ -13,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 @Path("myresource")
 public class MyResource
 {
-	private int id = 1;
+	Server server = new Server();
 
 	/**
 	 * Method handling HTTP GET requests. The returned object will be sent to
@@ -28,6 +29,7 @@ public class MyResource
 		return "Got it! my test";
 	}
 
+		
 	@GET
 	@Path("json")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -36,20 +38,20 @@ public class MyResource
 		return "json";
 	}
 
+	/**
+	 *  login method
+	 * @param userName, password
+	 * @return unique id to be used via http
+	 */
 	@POST
 	@Path("login")	
 	@Produces(MediaType.APPLICATION_JSON)
 	//@Consumes(MediaType.TEXT_PLAIN)
-	public String getId(String credentials)
+	public String getId(String userName, String password)
 	{
-		String id;
-		if (credentials.length() >= 4)
-		{
-			id = "2";
-			return id;
-		}
-		id = "3";
+		
 		return id;
+		
 	}
 
 }
