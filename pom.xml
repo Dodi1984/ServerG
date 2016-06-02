@@ -46,6 +46,13 @@
 			<version>6.0.2</version>
 		</dependency>
 
+		<!-- http://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-sse -->
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-sse</artifactId>
+			<version>2.23</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>

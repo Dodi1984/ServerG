@@ -10,8 +10,13 @@ public class Client
 	private String userName;
 	private String password;
 	private int id;
+	// instantiate client array, by default all values are false
 	private boolean[][] table = new boolean [10][10];
 
+	public Client(String userName)
+	{
+		this.userName = userName;
+	}
 	public String getUserName()
 	{
 		return userName;
