@@ -8,7 +8,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-
 import controller.Server;
 import model.Client;
 
@@ -18,6 +17,7 @@ import model.Client;
 @Path("myresource")
 public class MyResource
 {
+
 	private Server server = Server.getServerInstance();
 
 	/**
@@ -33,31 +33,26 @@ public class MyResource
 		return "Got it! my test";
 	}
 
+	/**
+	 * Method for status, to be called at least every 200 ms
+	 * @return true if the update is needed false if not
+	 */
 	@GET
-	@Path("json")
+	@Path("status")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getJson()
+	public String getStatus()
 	{
-		return "json";
+		return Boolean.toString(server.isUpdateNeeded());
 	}
-
 
 	@POST
 	@Path("login")
-	@Produces(MediaType.APPLICATION_JSON)
-	//@Consumes(MediaType.APPLICATION_JSON)
-	public String getId(String userName)
-	{			
-		for (Client c : server.getClients())
-		{
-			if (c.getUserName().equals(userName))
-			{
-				return Integer.toString(c.getId());			
-			}
-		}
-		Client c = new Client(userName);
-		server.addNewClient(c);
-		return Integer.toString(c.getId());
+	@Produces(MediaType.APPLICATION_JSON)	
+	public String login(String userName)
+	{				
+		return "Connected "+ Integer.toString(server.newClient(userName));	
 	}
+	
+	
 
 }

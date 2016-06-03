@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.Vector;
 
 import model.Client;
+
 /**
  * 
  * @author daniculescu
@@ -12,53 +13,118 @@ import model.Client;
  */
 public class Server
 {
-	private Vector<Client> clients = new Vector<>();
+	private boolean updateNeeded;
+	private int updatedClients;
+	private Client player1;
+	private Client player2;
 	private static Server server;
-	
+
 	public int getClientId(Client c)
-	{		
-		
+	{
 		return c.getId();
 	}
-	
-	public void generateClientId(Client c)
+
+	public int newClient(String userName)
 	{
-		Random r = new Random();
-		int low = 1;
-		int high = 100;
-		int result = r.nextInt(high-low) + low;
-		c.setId(result);
+		if (player1 == null)
+		{
+			player1 = new Client(userName);
+			setUpdateNeeded(true);
+			player1.setId(1);
+			
+		} else if (player2 == null)
+		{
+			player2 = new Client(userName);
+			setUpdateNeeded(true);
+			player1.setId(2);			
+		}
+		if (player1.getUserName().equals(userName))
+		{
+			updateNeeded=true;
+			return player1.getId();
+		}
+		else if (player2.getUserName().equals(userName))
+		{
+			updateNeeded=true;
+			return player2.getId();
+		}		
+		return 0;
 	}
+
 	/**
 	 * use this to retrieve server instance if needed
+	 * 
 	 * @return server instance
 	 */
 	public static Server getServerInstance()
 	{
-		if (server==null)
+		if (server == null)
 		{
 			server = new Server();
 			return server;
 		}
 		return server;
+		
 	}
 
-	public Vector<Client> getClients()
+	/**
+	 * 	  
+	 * @param client
+	 * @return the oposite player
+	 */
+	public Client UpdateClient(Client c)
 	{
-		return clients;
+		if (c == player1)
+		{
+			return player2;
+		}
+		return player2;
 	}
 
-	public void setClients(Vector<Client> clients)
+	public Client getPlayer1()
 	{
-		this.clients = clients;
+		return player1;
+	}
+
+	public void setPlayer1(Client player1)
+	{
+		this.player1 = player1;
+	}
+
+	public Client getPlayer2()
+	{
+		return player2;
+	}
+
+	public void setPlayer2(Client player2)
+	{
+		this.player2 = player2;
+	}
+
+	public boolean isUpdateNeeded()
+	{
+		return updateNeeded;
+	}
+
+	public void setUpdateNeeded(boolean updateNeeded)
+	{
+		this.updateNeeded = updateNeeded;
 	}
 	
-	public void addNewClient(Client c)
+
+	/**
+	 * @return the updatedClients
+	 */
+	public int getUpdatedClients()
 	{
-		clients.addElement(c);
-		generateClientId(c);
+		return updatedClients;
 	}
-	
-	
-	
+
+	/**
+	 * @param updatedClients the updatedClients to set
+	 */
+	public void setUpdatedClients()
+	{		
+		updatedClients += 1;
+	}
 }
