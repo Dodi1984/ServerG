@@ -1,7 +1,5 @@
 package org.myGame.server.ServerG;
 
-import java.util.Vector;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -9,7 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import controller.Server;
-import model.Client;
+import model.Message;
 
 /**
  * Root resource (exposed at "myresource" path)
@@ -45,14 +43,35 @@ public class MyResource
 		return Boolean.toString(server.isUpdateNeeded());
 	}
 
+	/**
+	 * To be called in order to receive ID
+	 * 
+	 * @param userName
+	 * @return a unique id
+	 */
+	
 	@POST
 	@Path("login")
 	@Produces(MediaType.APPLICATION_JSON)	
 	public String login(String userName)
 	{				
-		return "Connected "+ Integer.toString(server.newClient(userName));	
+		return Integer.toString(server.newClient(userName));	
 	}
 	
+	/**
+	 * To be called after position is set
+	 * 
+	 * @param ready
+	 * @return OK
+	 */
 	
+	@POST
+	@Path("ready")
+	@Produces(MediaType.APPLICATION_JSON)	
+	public String position(Message ready)
+	{		
+		server.playerReadyToStart(ready);		
+		return "OK";	
+	}
 
 }
