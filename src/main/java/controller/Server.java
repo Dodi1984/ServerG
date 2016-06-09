@@ -1,6 +1,7 @@
 package controller;
 
 import model.Message;
+import model.StatusEnum;
 import model.User;
 
 /**
@@ -10,7 +11,6 @@ import model.User;
  */
 public class Server
 {
-	private boolean updateNeeded;
 	private int updatedClients;
 	private boolean startGame;
 	private User player1;
@@ -72,31 +72,36 @@ public class Server
 	{
 		if (message.getId() == 1)
 		{
-			
+
 		}
 		if (message.getId() == 2)
 		{
 
 		}
 	}
-	
+
 	public void playerReadyToStart(Message message)
 	{
 		if (message.getId() == 1)
 		{
 			player1.setPositionGrid(message.getPositionGrid());
-			player1.setReady(true);
+			player1.setStatus(StatusEnum.WAIT);
 		}
 		if (message.getId() == 2)
 		{
 			player2.setPositionGrid(message.getPositionGrid());
-			player2.setReady(true);
+			player2.setStatus(StatusEnum.WAIT);
+		}
+
+		if (player1!=null&&player2!=null)
+		{
+			if (player1.getStatus() == StatusEnum.WAIT && player2.getStatus() == StatusEnum.WAIT)
+			{
+				startGame = true;
+				player1.setStatus(StatusEnum.YOURTURN);
+			}
 		}
 		
-		if (player1.isReady()&&player2.isReady())
-		{
-			startGame=true;
-		}
 	}
 
 	public User getPlayer1()
@@ -119,19 +124,18 @@ public class Server
 		this.player2 = player2;
 	}
 
-	public boolean isUpdateNeeded()
+	public Message status(int id)
 	{
-		return updateNeeded;
+		if (id == 1)
+		{
+			return player1;
+		} else if (id == 2)
+		{
+			return player2;
+		}
+		return null;
 	}
 
-	public void setUpdateNeeded(boolean updateNeeded)
-	{
-		this.updateNeeded = updateNeeded;
-	}
-
-	/**
-	 * @return the updatedClients
-	 */
 	public int getUpdatedClients()
 	{
 		return updatedClients;
@@ -155,10 +159,44 @@ public class Server
 	}
 
 	/**
-	 * @param startGame the startGame to set
+	 * @param startGame
+	 *            the startGame to set
 	 */
 	public void setStartGame(boolean startGame)
 	{
 		this.startGame = startGame;
+	}
+
+	public String attack(Message message)
+	{
+		if (message.getId()==1)
+		{
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{				
+					if (message.getAttackPosition()[i][j]==player2.getPositionGrid()[i][j])
+					{
+						return "hit";
+					}
+				}
+			}
+		}
+		if (message.getId()==2)
+		{
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{				
+					if (message.getAttackPosition()[i][j]==player1.getPositionGrid()[i][j])
+					{
+						return "hit";
+					}
+				}
+			}
+		}
+		
+		return null;
+
 	}
 }

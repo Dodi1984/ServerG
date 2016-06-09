@@ -7,10 +7,9 @@ public class Message
 {
 	private Boolean[][] positionGrid = new Boolean[10][10];
 	private String userName;
-	private boolean startGame;
-	private boolean myturn;
-	private boolean ready;
 	private int id;
+	private StatusEnum status = StatusEnum.WAIT;
+	private Boolean[][] attackPosition = new Boolean[10][10];
 	
 	public Message()
 	{
@@ -28,40 +27,6 @@ public class Message
 	}
 
 	/**
-	 * @return the startGame
-	 */
-	public boolean isStartGame()
-	{
-		return startGame;
-	}
-
-	/**
-	 * @param startGame
-	 *            the startGame to set
-	 */
-	public void setStartGame(boolean startGame)
-	{
-		this.startGame = startGame;
-	}
-
-	/**
-	 * @return the myturn
-	 */
-	public boolean isMyturn()
-	{
-		return myturn;
-	}
-
-	/**
-	 * @param myturn
-	 *            the myturn to set
-	 */
-	public void setMyturn(boolean myturn)
-	{
-		this.myturn = myturn;
-	}
-
-	/**
 	 * @return the id
 	 */
 	public int getId()
@@ -70,7 +35,8 @@ public class Message
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(int id)
 	{
@@ -86,7 +52,8 @@ public class Message
 	}
 
 	/**
-	 * @param userName the userName to set
+	 * @param userName
+	 *            the userName to set
 	 */
 	public void setUserName(String userName)
 	{
@@ -94,19 +61,35 @@ public class Message
 	}
 
 	/**
-	 * @return the ready
+	 * @return the status
 	 */
-	public boolean isReady()
+	public StatusEnum getStatus()
 	{
-		return ready;
+		return status;
 	}
 
 	/**
-	 * @param ready the ready to set
+	 * @param status the status to set
 	 */
-	public void setReady(boolean ready)
+	public void setStatus(StatusEnum status)
 	{
-		this.ready = ready;
+		this.status = status;
 	}
 
+	
+	/**
+	 * @return the attackPosition
+	 */
+	public Boolean[][] getAttackPosition()
+	{
+		return attackPosition;
+	}
+
+	/**
+	 * @param attackPosition the attackPosition to set
+	 */
+	public void setAttackPosition(Boolean[][] attackPosition)
+	{
+		this.attackPosition = attackPosition;
+	}
 }

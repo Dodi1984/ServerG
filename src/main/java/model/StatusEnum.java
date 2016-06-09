@@ -1,6 +1,6 @@
 package model;
 
-public enum MessageEnum
+public enum StatusEnum
 {
 	YOURTURN,WAIT,WIN,LOSE
 }

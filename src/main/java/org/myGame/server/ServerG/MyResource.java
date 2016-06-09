@@ -36,13 +36,25 @@ public class MyResource
 	 * @return true if the update is needed false if not
 	 */
 	@GET
-	@Path("status")
+	@Path("status/id1")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getStatus()
+	public Message getStatusPlayer1()
 	{
-		return Boolean.toString(server.isUpdateNeeded());
+		
+		return server.status(1);
+		
 	}
 
+	@GET
+	@Path("status/id2")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Message getStatusPlayer2()
+	{
+		
+		return server.status(2);
+		
+	}
+	
 	/**
 	 * To be called in order to receive ID
 	 * 
@@ -68,10 +80,20 @@ public class MyResource
 	@POST
 	@Path("ready")
 	@Produces(MediaType.APPLICATION_JSON)	
-	public String position(Message ready)
+	public String setPosition(Message ready)
 	{		
-		server.playerReadyToStart(ready);		
-		return "OK";	
+		server.playerReadyToStart(ready);
+		return "OK";
+	}
+	
+	@POST
+	@Path("attack")
+	@Produces(MediaType.APPLICATION_JSON)	
+	
+	public String attack(Message attack)
+	{		
+		
+		return server.attack(attack);	
 	}
 
 }
