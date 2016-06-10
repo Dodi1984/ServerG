@@ -2,6 +2,7 @@ package org.myGame.server.ServerG;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -32,27 +33,23 @@ public class MyResource
 	}
 
 	/**
-	 * Method for status, to be called at least every 200 ms
+	 * Method for status, to be called at least every 100 ms
 	 * @return true if the update is needed false if not
 	 */
 	@GET
 	@Path("status/id1")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Message getStatusPlayer1()
-	{
-		
-		return server.status(1);
-		
+	{		
+		return server.status(1);		
 	}
 
 	@GET
 	@Path("status/id2")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Message getStatusPlayer2()
-	{
-		
-		return server.status(2);
-		
+	{		
+		return server.status(2);		
 	}
 	
 	/**
@@ -77,20 +74,18 @@ public class MyResource
 	 * @return OK
 	 */
 	
-	@POST
+	@PUT
 	@Path("ready")
 	@Produces(MediaType.APPLICATION_JSON)	
-	public String setPosition(Message ready)
-	{		
-		server.playerReadyToStart(ready);
-		return "OK";
+	public Message setPosition(Message ready)
+	{				
+		return server.playerReadyToStart(ready);
 	}
 	
-	@POST
+	@PUT
 	@Path("attack")
-	@Produces(MediaType.APPLICATION_JSON)	
-	
-	public String attack(Message attack)
+	@Produces(MediaType.APPLICATION_JSON)		
+	public Message attack(Message attack)
 	{		
 		
 		return server.attack(attack);	

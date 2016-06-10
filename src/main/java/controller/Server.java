@@ -80,27 +80,39 @@ public class Server
 		}
 	}
 
-	public void playerReadyToStart(Message message)
+	public Message playerReadyToStart(Message message)
 	{
 		if (message.getId() == 1)
 		{
 			player1.setPositionGrid(message.getPositionGrid());
 			player1.setStatus(StatusEnum.WAIT);
+			if (player1!=null&&player2!=null)
+			{
+				if (player1.getStatus() == StatusEnum.WAIT && player2.getStatus() == StatusEnum.WAIT)
+				{
+					startGame = true;
+					player1.setStatus(StatusEnum.YOURTURN);							
+				}
+			}
+			return player1;
 		}
 		if (message.getId() == 2)
 		{
 			player2.setPositionGrid(message.getPositionGrid());
 			player2.setStatus(StatusEnum.WAIT);
+			if (player1!=null&&player2!=null)
+			{
+				if (player1.getStatus() == StatusEnum.WAIT && player2.getStatus() == StatusEnum.WAIT)
+				{
+					startGame = true;
+					player1.setStatus(StatusEnum.YOURTURN);							
+				}
+			}
+			return player2;
 		}
 
-		if (player1!=null&&player2!=null)
-		{
-			if (player1.getStatus() == StatusEnum.WAIT && player2.getStatus() == StatusEnum.WAIT)
-			{
-				startGame = true;
-				player1.setStatus(StatusEnum.YOURTURN);
-			}
-		}
+		
+		return null;
 		
 	}
 
@@ -167,7 +179,7 @@ public class Server
 		this.startGame = startGame;
 	}
 
-	public String attack(Message message)
+	public Message attack(Message message)
 	{
 		if (message.getId()==1)
 		{
@@ -175,12 +187,25 @@ public class Server
 			{
 				for (int j = 0; j < 10; j++)
 				{				
-					if (message.getAttackPosition()[i][j]==player2.getPositionGrid()[i][j])
+					if (message.getAttackPosition()[i][j]==true&&player2.getPositionGrid()[j][i]==true)
 					{
-						return "hit";
-					}
+						player1.setHitsLeft(player1.getHitsLeft()-1);
+						player1.setHit(true);
+						if (player1.getHitsLeft()==0)
+						{
+							player1.setStatus(StatusEnum.WIN);
+							player2.setStatus(StatusEnum.LOSE);
+						}						
+						player1.setStatus(StatusEnum.WAIT);
+						player2.setStatus(StatusEnum.YOURTURN);						
+						return player1;
+					}					
 				}
-			}
+			}		
+			player1.setHit(false);
+			player1.setStatus(StatusEnum.WAIT);
+			player2.setStatus(StatusEnum.YOURTURN);
+			return player1;
 		}
 		if (message.getId()==2)
 		{
@@ -188,12 +213,25 @@ public class Server
 			{
 				for (int j = 0; j < 10; j++)
 				{				
-					if (message.getAttackPosition()[i][j]==player1.getPositionGrid()[i][j])
+					if (message.getAttackPosition()[i][j]==true&&player1.getPositionGrid()[j][i]==true)
 					{
-						return "hit";
+						player2.setHitsLeft(player2.getHitsLeft()-1);
+						player2.setHit(true);
+						if (player2.getHitsLeft()==0)
+						{
+							player2.setStatus(StatusEnum.WIN);
+							player1.setStatus(StatusEnum.LOSE);
+						}
+						player2.setStatus(StatusEnum.WAIT);
+						player1.setStatus(StatusEnum.YOURTURN);				
+						return player2;
 					}
 				}
 			}
+			player2.setHit(false);
+			player2.setStatus(StatusEnum.WAIT);
+			player1.setStatus(StatusEnum.YOURTURN);						
+			return player2;
 		}
 		
 		return null;

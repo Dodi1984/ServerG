@@ -6,10 +6,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Message
 {
 	private Boolean[][] positionGrid = new Boolean[10][10];
-	private String userName;
-	private int id;
-	private StatusEnum status = StatusEnum.WAIT;
 	private Boolean[][] attackPosition = new Boolean[10][10];
+	private String userName;
+	private int hitsLeft = 18;
+	private int id;
+	private boolean hit;
+	private StatusEnum status = StatusEnum.WAIT;
 	
 	public Message()
 	{
@@ -76,20 +78,47 @@ public class Message
 		this.status = status;
 	}
 
-	
-	/**
-	 * @return the attackPosition
-	 */
 	public Boolean[][] getAttackPosition()
 	{
 		return attackPosition;
 	}
 
-	/**
-	 * @param attackPosition the attackPosition to set
-	 */
 	public void setAttackPosition(Boolean[][] attackPosition)
 	{
 		this.attackPosition = attackPosition;
 	}
+
+	/**
+	 * @return the hit
+	 */
+	public boolean isHit()
+	{
+		return hit;
+	}
+
+	/**
+	 * @param hit the hit to set
+	 */
+	public void setHit(boolean hit)
+	{
+		this.hit = hit;
+	}
+
+	/**
+	 * @return the hitsLeft
+	 */
+	public int getHitsLeft()
+	{
+		return hitsLeft;
+	}
+
+	/**
+	 * @param hitsLeft the hitsLeft to set
+	 */
+	public void setHitsLeft(int hitsLeft)
+	{
+		this.hitsLeft = hitsLeft;
+	}
+
+
 }
