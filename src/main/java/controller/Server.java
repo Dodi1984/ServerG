@@ -222,6 +222,11 @@ public class Server
 							player2.setStatus(StatusEnum.WIN);
 							player1.setStatus(StatusEnum.LOSE);
 						}
+						if (player1.getHitsLeft()==0)
+						{
+							player1.setStatus(StatusEnum.WIN);
+							player2.setStatus(StatusEnum.LOSE);
+						}
 						player2.setStatus(StatusEnum.WAIT);
 						player1.setStatus(StatusEnum.YOURTURN);				
 						return player2;
